@@ -7,16 +7,18 @@ global.sinon = require("sinon");
 global.chai.use(require("sinon-chai"));
 global.sandbox = global.sinon.sandbox.create();
 
-global._ = require('./lodash.js');
+// global._ = require('./lodash.js');
 
 global.desc = function(description, callback) {
-  describe(description, function() {
-    afterEach(function() {
-      sandbox.restore();
-    });
+	describe(description, function() {
+		// beforeEach(function() {
+		// 	require('./screepsAutocomplete.js');
+		// });
 
-    callback();
-  });
+		afterEach(function() {
+			sandbox.restore();
+		});
+
+		callback();
+	});
 }
-
-require('./screepsAutocomplete.js');

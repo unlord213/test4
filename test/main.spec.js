@@ -1,24 +1,26 @@
 'use strict';
 
-// require('../src/creep/hello');
+const chai = require('chai');
+const sinon = require('sinon');
+const expect = chai.expect;
 
-const main = require('../src/main');
-// require('lib/screepsAutocomplete');
-// const Creep = require('../lib/ScreepsAutocomplete/Creep');
+global._ = require('./lib/lodash.js');
 
-desc('main', () => {
-    beforeEach(() => {
-        Game.creeps = [{
-            creepName0: {
-                sayHello: sinon.stub()
-            },
-            creepName1: {
-                sayHello: sinon.stub()
-            }
-        }]
-    });
+describe('Creep.prototype.hello', () => {
+	let main;
 
-    it('should update memory', () => {
-        main.loop();
-    });
+	beforeEach(() => {
+		sinon.sandbox.create();
+		require('./lib/screepsAutocomplete.js')();
+		main = require('../src/main');
+	});
+
+	afterEach(() => {
+		sinon.sandbox.restore();
+	});
+
+	it('should say hello', () => {
+		Game.creeps = {};
+		main.loop();
+	});
 });

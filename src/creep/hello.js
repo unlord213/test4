@@ -1,5 +1,7 @@
-console.log('load hello')
+console.log('load hello');
 
-Creep.prototype.sayHello = function() {
-    console.log(this.name + " says: Hello Sunshine");
-};
+module.exports = function() {
+	Creep.prototype.sayHello = function() {
+		console.log(this.name + " says: Hello Sunshine");
+	};
+}
