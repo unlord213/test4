@@ -1,7 +1,7 @@
 'use strict';
 
 require('version');
-require('creep/hello');
+require('creep_hello');
 
 module.exports.loop = function () {
     if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION) {

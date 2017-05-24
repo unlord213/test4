@@ -52,14 +52,19 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    src: '**',
-                    dest: 'dist/',
+                    src: ['**'],
+                    dest: ['dist/'],
                     filter: 'isFile',
                     rename: function (dest, src) {
                         // Change the path name utilize underscores for folders
                         return dest + src.replace(/\//g, '_');
-                    }
-                }]
+                    },
+                }],
+                options: {
+                    process: function (content, srcpath) {
+                        return content.replace(/\//g, '_');
+                    },
+                }
             }
         },
 
@@ -84,8 +89,9 @@ module.exports = function (grunt) {
             versioning: {
                 files: [
                     {
-                        append: "\nglobal.SCRIPT_VERSION = " + currentdate.getTime() + "\n",
-                        input: 'dist/version.js',
+                        append: "\nglobal.SCRIPT_VERSION = " + currentdate.getTime() + ";\n",
+                        input: './src/version.js',
+                        output: './dist/version.js',
                     }
                 ]
             }
@@ -206,7 +212,8 @@ module.exports = function (grunt) {
     });
 
     // Combine the above into a default task
-    grunt.registerTask('default', ['clean', 'copy:screeps', 'file_append:versioning', 'screeps']);
+    grunt.registerTask('dist', ['clean', 'copy:screeps', 'file_append:versioning']);
+    // grunt.registerTask('default', ['clean', 'copy:screeps', 'file_append:versioning', 'screeps']);
     grunt.registerTask('private', ['clean', 'copy:screeps', 'file_append:versioning', 'rsync:private']);
     grunt.registerTask('test', ['jsbeautifier:verify']);
     grunt.registerTask('pretty', ['jsbeautifier:modify']);
