@@ -1,12 +1,12 @@
 'use strict';
 
-require('version');
-require('creep/hello');
+require('./version');
+require('./creep/hello');
 
 module.exports.loop = function () {
-    if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION) {
-        Memory.SCRIPT_VERSION = SCRIPT_VERSION
-        console.log('New code uplodated')
+    if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION !== SCRIPT_VERSION) {
+        Memory.SCRIPT_VERSION = SCRIPT_VERSION;
+        console.log('New code uploaded');
     }
 
     console.log('loop');
