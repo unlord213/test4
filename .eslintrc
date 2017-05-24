@@ -1,0 +1,52 @@
+{
+	"rules": {
+		"indent": [
+			2,
+			"tab",
+      {"SwitchCase": 1}
+		],
+		"quotes": [
+			2,
+			"single"
+		],
+		"linebreak-style": [
+			2,
+			"unix"
+		],
+		"semi": [
+			2,
+			"always"
+		],
+	},
+	"env": {
+		"es6": true,
+		"node": true
+	},
+	"globals": {
+		"_": false,
+		"describe": false,
+		"desc": false,
+		"it": false,
+		"expect": false,
+		"beforeEach": false,
+		"sinon": false,
+		"sandbox": false,
+		"Memory": false,
+		"Game": false,
+		"RoomPosition": false,
+		"FIND_SOURCES": false,
+		"OK": false,
+		"ERR_NOT_IN_RANGE": false,
+    "STRUCTURE_SPAWN": false,
+    "STRUCTURE_CONTROLLER": false,
+    "FIND_STRUCTURES": false,
+    "STRUCTURE_EXTENSION": false,
+    "RESOURCE_ENERGY": false,
+    "WORK": false,
+    "CARRY": false,
+    "MOVE": false,
+    "ERR_FULL": false,
+		"Position": false
+	},
+	"extends": "eslint:recommended"
+}
