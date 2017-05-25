@@ -13,18 +13,36 @@ const chai = require('chai');
 const sinon = require('sinon');
 const expect = chai.expect;
 
+const sandbox = sinon.sandbox.create();
+
 describe('main', () => {
 	beforeEach(() => {
-		sinon.sandbox.create();
 		require('../lib/screepsAutocomplete.js')();
-		require('../../src/creep/hello')();
 	});
 
 	afterEach(() => {
-		sinon.sandbox.restore();
+		sandbox.restore();
+	});
+
+	let creep;
+	let creepName;
+
+	beforeEach(() => {
+		sandbox.stub(console, 'log');
+
+		require('../../src/creep/hello')();
+
+		creepName = 'creepName0';
+		creep = new Creep();
+		creep.name = creepName;
+	});
+
+	it('should be defined', () => {
+		expect(creep.sayHello).to.not.be.undefined;
 	});
 
 	it('should say hello', () => {
-		Game.creeps = {};
+		creep.sayHello();
+		expect(console.log).to.have.been.calledWith(creepName + ' says: Hello Sunshine');
 	});
 });
