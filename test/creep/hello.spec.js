@@ -30,7 +30,7 @@ describe('main', () => {
 	beforeEach(() => {
 		sandbox.stub(console, 'log');
 
-		require('../../src/creep/hello')();
+		require('../../src/prototype/creep/hello')();
 
 		creepName = 'creepName0';
 		creep = new Creep();
