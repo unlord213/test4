@@ -1,7 +1,5 @@
 'use strict';
 
-const foo = require('prototype_creep_build');
-
 module.exports = {
 	generate: (spawnName, role) => {
 		if (role) {
