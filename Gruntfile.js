@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 	require('time-grunt')(grunt);
 
 	// Pull defaults (including username and password) from .screeps.json
@@ -16,8 +16,8 @@ module.exports = function(grunt) {
 	grunt.log.writeln('Branch: ' + branch);
 
 	// Load needed tasks
-	grunt.loadNpmTasks("grunt-jsbeautifier");
-	grunt.loadNpmTasks("grunt-rsync");
+	grunt.loadNpmTasks('grunt-jsbeautifier');
+	grunt.loadNpmTasks('grunt-rsync');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -55,14 +55,14 @@ module.exports = function(grunt) {
 					src: ['**'],
 					dest: ['dist/'],
 					filter: 'isFile',
-					rename: function(dest, src) {
+					rename: function (dest, src) {
 						// Change the path name utilize underscores for folders
 						return dest + src.replace(/\//g, '_');
 					},
 				}],
 				options: {
-					process: function(content, srcpath) {
-						return content.replace(/\//g, '_');
+					process: function (content, srcpath) {
+						return content.replace(/\.\.\//g, '').replace(/\.\//g, '').replace(/([^*\/\s])\/(?!\*)/g, '$1_');
 					},
 				}
 			}
@@ -165,10 +165,10 @@ module.exports = function(grunt) {
 			replace: {
 				src: ['test/screepsAutocomplete.js'],
 				actions: [{
-						search: '(.*) = function',
-						replace: 'global.$1 = function',
-						flags: 'g'
-					},
+					search: '(.*) = function',
+					replace: 'global.$1 = function',
+					flags: 'g'
+				},
 					{
 						search: 'const ',
 						replace: 'global.',

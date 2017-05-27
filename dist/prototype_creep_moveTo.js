@@ -1,6 +1,6 @@
 'use strict';
 
-const ResultMap = require('../../util/ResultMap');
+const ResultMap = require('util_ResultMap');
 
 module.exports = () => {
 	if (!Creep.prototype._moveTo) {

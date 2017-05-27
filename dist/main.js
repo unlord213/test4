@@ -1,16 +1,18 @@
 'use strict';
 
 require('version');
-require('creep_hello');
+require('prototype_creep_hello')();
 
-module.exports.loop = function () {
-    if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION != SCRIPT_VERSION) {
-        Memory.SCRIPT_VERSION = SCRIPT_VERSION
-        console.log('New code uplodated')
-    }
+module.exports.loop = () => {
+	if (!Memory.SCRIPT_VERSION || Memory.SCRIPT_VERSION !== global.SCRIPT_VERSION) {
+		Memory.SCRIPT_VERSION = global.SCRIPT_VERSION;
+		console.log('New code uploaded');
+	}
 
-    console.log('loop');
-    _.forIn(Game.creeps, (creep, creepName) => {
-        creep.sayHello();
-    });
+	console.log('loop');
+	_.forIn(Game.creeps, (creep, creepName) => {
+		creep.sayHello();
+	});
+
+	//Game.spawns['Spawn1'].createCreep( [WORK, CARRY, MOVE], 'Harvester1' );
 };
