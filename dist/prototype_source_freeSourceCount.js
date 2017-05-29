@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = () => {
+module.exports = function() {
 	Object.defineProperty(Source.prototype, 'freeSpaceCount', {
-		get: () => {
+		get: function() {
 			if (this._freeSpaceCount === undefined) {
 				if (this.memory.freeSpaceCount === undefined) {
 					let freeSpaceCount = 0;

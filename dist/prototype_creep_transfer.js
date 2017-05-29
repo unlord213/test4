@@ -2,7 +2,7 @@
 
 // const ResultMap = require('ResultMap');
 
-module.exports = () => {
+module.exports = function() {
 	if (!Creep.prototype._transfer) {
 		Creep.prototype._transfer = Creep.prototype.transfer;
 

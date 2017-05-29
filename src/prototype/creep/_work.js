@@ -2,7 +2,7 @@
 
 const ResultMap = require('../../util/ResultMap');
 
-module.exports = () => {
+module.exports = function() {
 	if (!Creep.prototype._work) {
 		Creep.prototype._work = (actionName, ...args) => {
 			const result = this[actionName].apply(this, args);

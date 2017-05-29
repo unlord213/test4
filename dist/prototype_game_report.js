@@ -1,10 +1,17 @@
 'use strict';
 
-module.exports = () => {
-	if (!Game.prototype.report) {
-		Game.prototype.report = () => {
+const SPAN_PURPLE = '<span style="color:rgba(198, 120, 221, 1)">';
+const SPAN_ORANGE = '<span style="color:rgba(210, 127, 50, 1)">';
+const SPAN_GREEN = '<span style="color:rgba(152, 195, 121, 1)">';
+const SPAN_CLOSE = '</span>';
+
+// TODO: doesnt carry across game loops, change to reporter
+module.exports = function() {
+	if (Game.report === undefined) {
+		Game.report = function() {
+			const memoryUsage = _.round(JSON.stringify(Memory).length / 1024, 2);
 			/*eslint-disable no-console */
-			console.log(Game.time);
+			console.log(SPAN_PURPLE + 'Tick ' + Game.time + ': ' + Game.cpu.getUsed() + ' CPU: ' + memoryUsage + 'kb' + SPAN_CLOSE);
 		};
 	}
 };

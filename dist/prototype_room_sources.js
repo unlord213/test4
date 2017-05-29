@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = () => {
+module.exports = function() {
 	Object.defineProperty(Room.prototype, 'sources', {
-		get: () => {
+		get: function() {
 			// If we dont have the value stored locally
 			if (!this._sources) {
 				// If we dont have the value stored in memory

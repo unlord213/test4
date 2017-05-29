@@ -2,7 +2,7 @@
 
 const NameGenerator = require('util_NameGenerator');
 
-module.exports = () => {
+module.exports = function() {
 	if (!StructureSpawn.prototype._createCreep) {
 		StructureSpawn.prototype._createCreep = StructureSpawn.prototype.createCreep;
 

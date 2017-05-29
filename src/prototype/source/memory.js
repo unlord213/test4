@@ -1,26 +1,26 @@
 'use strict';
 
-module.exports = () => {
+module.exports = function() {
 	Object.defineProperty(Source.prototype, 'memory', {
 		configurable: true,
-		get: () => {
-			if (_.isUndefined(Memory.mySourcesMemory)) {
-				Memory.mySourcesMemory = {};
+		get: function() {
+			if (_.isUndefined(Memory.sources)) {
+				Memory.sources = {};
 			}
-			if (!_.isObject(Memory.mySourcesMemory)) {
+			if (!_.isObject(Memory.sources)) {
 				return undefined;
 			}
-			return Memory.mySourcesMemory[this.id] =
-				Memory.mySourcesMemory[this.id] || {};
+			return Memory.sources[this.id] =
+				Memory.sources[this.id] || {};
 		},
 		set: (value) => {
-			if (_.isUndefined(Memory.mySourcesMemory)) {
-				Memory.mySourcesMemory = {};
+			if (_.isUndefined(Memory.sources)) {
+				Memory.sources = {};
 			}
-			if (!_.isObject(Memory.mySourcesMemory)) {
-				throw new Error('Could not set source memory');
+			if (!_.isObject(Memory.sources)) {
+				throw new Error('Could not set roomPosition memory');
 			}
-			Memory.mySourcesMemory[this.id] = value;
+			Memory.sources[this.id] = value;
 		}
 	});
 };

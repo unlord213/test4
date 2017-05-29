@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = () => {
+module.exports = function() {
 	Object.defineProperty(Creep.prototype, 'isFull', {
-		get: () => {
+		get: function() {
 			if (!this._isFull) {
 				this._isFull = _.sum(this.carry) === this.carryCapacity;
 			}

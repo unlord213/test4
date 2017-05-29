@@ -2,7 +2,7 @@
 
 // const ResultMap = require('../ResultMap');
 
-module.exports = () => {
+module.exports = function() {
 	if (!Creep.prototype._repair) {
 		Creep.prototype._repair = Creep.prototype.repair;
 
