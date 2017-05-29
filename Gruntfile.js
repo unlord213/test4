@@ -44,7 +44,7 @@ module.exports = function (grunt) {
 			}
 		},
 
-		// Copy all roomPosition files into the dist folder, flattening the folder
+		// Copy all source files into the dist folder, flattening the folder
 		// structure by converting path delimiters to underscores
 		copy: {
 			// Pushes the game code to the dist folder so it can be modified before
@@ -95,7 +95,7 @@ module.exports = function (grunt) {
 						output: './dist/version.js',
 					},
 					{
-						append: '{"version":' + version + '}',
+						append: '{"version":' + version + '}' + '\n',
 						input: './src/version.js',
 						output: './version.json',
 					}

@@ -18,7 +18,7 @@ module.exports = function() {
 				Memory.sources = {};
 			}
 			if (!_.isObject(Memory.sources)) {
-				throw new Error('Could not set roomPosition memory');
+				throw new Error('Could not set source memory');
 			}
 			Memory.sources[this.id] = value;
 		}
