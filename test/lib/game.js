@@ -1,14 +1,15 @@
 'use strict';
 
 module.exports = function() {
-	// global._ = require('lodash');
-
 	global.Game = {
 		creeps: {},
 		flags: {},
 		rooms: {},
 		structures: {},
 		spawns: {},
+		cpu: {
+			getUsed: sandbox.stub()
+		},
 		map: {
 			getTerrainAt: sandbox.stub()
 		}
@@ -25,6 +26,11 @@ module.exports = function() {
 		this.y = y;
 		this.roomName = roomName;
 	};
+
+	global.Room = function(name) {
+		this.name = name;
+	};
+	Room.prototype.memory = {};
 
 	global.Source = function() {
 	};

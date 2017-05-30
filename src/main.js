@@ -1,14 +1,15 @@
 'use strict';
-
+console.log('main')
 require('./version');
 
 require('./util/Position');
 require('./util/AccessPoint');
 
-require('./prototype/game/report')();
 require('./prototype/roomPosition/getAdjacent')();
 require('./prototype/source/memory')();
 require('./prototype/source/buildAccessPoints')();
+
+const Reporter = require('./Reporter');
 
 module.exports.loop = function () {
 	if (Memory.SCRIPT_VERSION === undefined || Memory.SCRIPT_VERSION !== global.SCRIPT_VERSION) {
@@ -21,7 +22,7 @@ module.exports.loop = function () {
 	for (const roomName in Game.rooms) {
 		const room = Game.rooms[roomName];
 		room.find(FIND_SOURCES).forEach(source => {
-			source.buildAccessPoints();
+			const accessPoints = source.buildAccessPoints();
 		});
 	}
 	//
@@ -37,7 +38,7 @@ module.exports.loop = function () {
 	// console.log('Memory.sources');
 	// console.log(JSON.stringify(Memory.sources, 2));
 
-	// Game.report();
+	Reporter.report();
 
 	//Game.spawns['Spawn1'].createCreep( [WORK, CARRY, MOVE], 'Harvester1' );
 };

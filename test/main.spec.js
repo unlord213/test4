@@ -1,9 +1,11 @@
 'use strict';
 
 desc('main', function () {
+	const Reporter = require('../src/Reporter');
 	const main = require('../src/main');
 
 	beforeEach(function () {
+		sandbox.stub(Reporter, 'report');
 		sandbox.stub(console, 'log');
 	});
 

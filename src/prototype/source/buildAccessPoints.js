@@ -2,22 +2,20 @@
 
 const AccessPoint = require('../../util/AccessPoint');
 
-module.exports = function() {
+module.exports = function () {
 	if (!Source.prototype.buildAccessPoints) {
-		Source.prototype.buildAccessPoints = function() {
-			if (this.memory.accessPoints !== undefined) {
-				return;
-			}
-
-			this.memory.accessPoints = {};
+		Source.prototype.buildAccessPoints = function () {
+			const accessPoints = {};
 
 			const roomName = this.pos.roomName;
 			const adjacent = this.pos.getAdjacent();
 			adjacent.forEach((pos, index) => {
 				if (Game.map.getTerrainAt(pos.x, pos.y, roomName) !== 'wall') {
-					this.memory.accessPoints[index] = new AccessPoint(pos);
+					accessPoints[index] = new AccessPoint(pos);
 				}
 			});
+
+			return accessPoints;
 		};
 	}
 };

@@ -16,15 +16,6 @@ desc('Source.buildAccessPoints', function () {
 		source.pos.getAdjacent = sandbox.stub();
 	});
 
-	it('should do nothing if accessPoints defined', function () {
-		const accessPoints = {foo: 'bar'};
-		source.memory.accessPoints = accessPoints;
-
-		source.buildAccessPoints();
-		expect(source.memory.accessPoints).to.eql(accessPoints);
-		expect(Game.map.getTerrainAt).to.not.have.been.called;
-	});
-
 	it('should set access points', function () {
 		source.pos.getAdjacent.returns([
 			new Position(10, 10),
@@ -36,13 +27,13 @@ desc('Source.buildAccessPoints', function () {
 		Game.map.getTerrainAt.withArgs(11, 11, roomName).returns('wall');
 		Game.map.getTerrainAt.withArgs(12, 12, roomName).returns('foo');
 
-		source.buildAccessPoints();
+		const accessPoints = source.buildAccessPoints();
 
-		const accessPoints = {
+		const expected = {
 			0: new AccessPoint(new Position(10, 10)),
 			2: new AccessPoint(new Position(12, 12))
 		};
-		expect(source.memory.accessPoints).to.eql(accessPoints);
+		expect(accessPoints).to.eql(expected);
 
 		expect(Game.map.getTerrainAt.callCount).to.eql(3);
 		expect(Game.map.getTerrainAt).to.have.been.calledWith(10, 10, roomName);
