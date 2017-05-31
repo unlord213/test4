@@ -1,5 +1,4 @@
 'use strict';
-console.log('main')
 require('./version');
 
 require('./util/Position');
@@ -21,9 +20,10 @@ module.exports.loop = function () {
 	// console.log('--------------Init-------------')
 	for (const roomName in Game.rooms) {
 		const room = Game.rooms[roomName];
-		room.find(FIND_SOURCES).forEach(source => {
-			const accessPoints = source.buildAccessPoints();
-		});
+		const sourceAccessPoints = room.sourceAccessPoints;
+		// room.find(FIND_SOURCES).forEach(source => {
+		// 	const accessPoints = source.buildAccessPoints();
+		// });
 	}
 	//
 	// console.log('--------------Report-------------')

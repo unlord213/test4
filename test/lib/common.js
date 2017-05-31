@@ -8,15 +8,15 @@ global.chai.use(require('sinon-chai'));
 global.sandbox = sinon.sandbox.create();
 global._ = require('./lodash.js');
 
+require('./game.js')();
+
 global.desc = function (description, callback) {
-	require('./game.js')();
-	// beforeEach(function () {
-	// });
+	describe(description, function() {
+		afterEach(function () {
+			sandbox.restore();
+		});
 
-	afterEach(function () {
-		global.sandbox.restore();
+		callback();
 	});
-
-	callback();
 };
 

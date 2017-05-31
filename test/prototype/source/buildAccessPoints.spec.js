@@ -4,13 +4,12 @@ desc('Source.buildAccessPoints', function () {
 	const AccessPoint = require('../../../src/util/AccessPoint');
 	const Position = require('../../../src/util/Position');
 	let source;
-	let roomName;
+	const roomName = 'roomName0';
 
 	beforeEach(function () {
 		require('../../../src/prototype/source/memory')();
 		require('../../../src/prototype/source/buildAccessPoints')();
 
-		roomName = 'roomName0';
 		source = new Source();
 		source.pos = new RoomPosition(10, 10, roomName);
 		source.pos.getAdjacent = sandbox.stub();
