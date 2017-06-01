@@ -1,15 +1,16 @@
 'use strict';
 
+
 desc('Source.buildAccessPoints', function () {
+	require('../../lib/common');
+	require('../../../src/prototype/source/buildAccessPoints')();
+
 	const AccessPoint = require('../../../src/util/AccessPoint');
 	const Position = require('../../../src/util/Position');
 	let source;
 	const roomName = 'roomName0';
 
 	beforeEach(function () {
-		require('../../../src/prototype/source/memory')();
-		require('../../../src/prototype/source/buildAccessPoints')();
-
 		source = new Source();
 		source.pos = new RoomPosition(10, 10, roomName);
 		source.pos.getAdjacent = sandbox.stub();

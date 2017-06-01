@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = function () {
+module.exports = function (sandbox) {
+	const _ = require('./lodash.js');
+
 	global = _.merge(global, {
 		// TOP: 1,
 		// TOP_RIGHT: 2,

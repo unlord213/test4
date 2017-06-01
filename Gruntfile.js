@@ -131,7 +131,7 @@ module.exports = function (grunt) {
 					reporter: 'min',
 					clearRequireCache: true
 				},
-				src: ['test/**/*.js']
+				src: ['test/**/*.spec.js']
 			}
 		},
 
@@ -149,7 +149,7 @@ module.exports = function (grunt) {
 
 		mocha_istanbul: {
 			coverage: {
-				src: 'test', // a folder works nicely
+				src: ['test/**/*.spec.js'],
 				options: {
 					mask: '*.spec.js'
 				}

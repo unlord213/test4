@@ -8,7 +8,7 @@ global.chai.use(require('sinon-chai'));
 global.sandbox = sinon.sandbox.create();
 global._ = require('./lodash.js');
 
-require('./game.js')();
+require('./game.js')(sandbox);
 
 global.desc = function (description, callback) {
 	describe(description, function() {

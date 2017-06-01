@@ -1,5 +1,7 @@
 'use strict';
 
+require('./lib/common');
+
 desc('main', function () {
 	const Reporter = require('../src/Reporter');
 	const main = require('../src/main');

@@ -4,8 +4,8 @@ require('./version');
 require('./util/Position');
 require('./util/AccessPoint');
 
+require('./prototype/room/buildSourceAccessPoints')();
 require('./prototype/roomPosition/getAdjacent')();
-require('./prototype/source/memory')();
 require('./prototype/source/buildAccessPoints')();
 
 const Reporter = require('./Reporter');
@@ -20,7 +20,7 @@ module.exports.loop = function () {
 	// console.log('--------------Init-------------')
 	for (const roomName in Game.rooms) {
 		const room = Game.rooms[roomName];
-		const sourceAccessPoints = room.sourceAccessPoints;
+		room.buildSourceAccessPoints();
 		// room.find(FIND_SOURCES).forEach(source => {
 		// 	const accessPoints = source.buildAccessPoints();
 		// });

@@ -1,14 +1,15 @@
 'use strict';
 
+require('../../lib/common');
+
 desc('RoomPosition.getAdjacent', function () {
+	require('../../../src/prototype/roomPosition/getAdjacent')();
 	const Position = require('../../../src/util/Position');
+
 	let roomPosition;
-	let roomName;
+	const roomName = 'roomName0';
 
 	beforeEach(function () {
-		require('../../../src/prototype/roomPosition/getAdjacent')();
-
-		roomName = 'roomName0';
 		roomPosition = new RoomPosition(10, 10, roomName);
 	});
 
