@@ -1,14 +1,16 @@
 'use strict';
-
 require('version');
 
 require('util_Position');
 require('util_AccessPoint');
 
-require('prototype_game_report')();
+require('prototype_room_init')();
 require('prototype_roomPosition_getAdjacent')();
-require('prototype_source_memory')();
 require('prototype_source_buildAccessPoints')();
+require('prototype_structureSpawn_createCreep')();
+
+const Reporter = require('Reporter');
+const RoomManager = require('RoomMaanager');
 
 module.exports.loop = function () {
 	if (Memory.SCRIPT_VERSION === undefined || Memory.SCRIPT_VERSION !== global.SCRIPT_VERSION) {
@@ -17,27 +19,9 @@ module.exports.loop = function () {
 		console.log('New code uploaded: ' + Memory.SCRIPT_VERSION);
 	}
 
-	// console.log('--------------Init-------------')
 	for (const roomName in Game.rooms) {
-		const room = Game.rooms[roomName];
-		room.find(FIND_SOURCES).forEach(source => {
-			source.buildAccessPoints();
-		});
+		RoomManager.run(Game.rooms[roomName]);
 	}
-	//
-	// console.log('--------------Report-------------')
-	// for (const roomName in Game.rooms) {
-	// 	const room = Game.rooms[roomName];
-	// 	room.find(FIND_SOURCES).forEach(source => {
-	// 		console.log('source ' + source.id + ' memory:');
-	// 		console.log(JSON.stringify(source.memory, 2));
-	// 	});
-	// }
-	//
-	// console.log('Memory.sources');
-	// console.log(JSON.stringify(Memory.sources, 2));
 
-	// Game.report();
-
-	//Game.spawns['Spawn1'].createCreep( [WORK, CARRY, MOVE], 'Harvester1' );
+	Reporter.report();
 };

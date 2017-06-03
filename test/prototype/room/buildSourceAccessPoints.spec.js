@@ -3,7 +3,7 @@
 require('../../lib/common');
 
 desc('Room.buildSourceAccessPoints', function () {
-	require('../../../src/prototype/room/buildSourceAccessPoints')();
+	require('../../../src/prototype/room/init')();
 
 	let room;
 	const roomName = 'roomName0';
@@ -34,6 +34,7 @@ desc('Room.buildSourceAccessPoints', function () {
 			sourceId0: accessPoint0,
 			sourceId1: accessPoint1
 		});
+		expect(room.memory.maxHarvesters).to.eql(2);
 		expect(room.find).to.have.been.calledWith(FIND_SOURCES);
 	});
 

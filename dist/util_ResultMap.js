@@ -23,4 +23,3 @@ module.exports = {
 		return codes[code * -1];
 	}
 };
-
