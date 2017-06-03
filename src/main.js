@@ -10,7 +10,7 @@ require('./prototype/source/buildAccessPoints')();
 require('./prototype/structureSpawn/createCreep')();
 
 const Reporter = require('./Reporter');
-const RoomManager = require('./RoomMaanager');
+const RoomManager = require('./RoomManager');
 
 module.exports.loop = function () {
 	if (Memory.SCRIPT_VERSION === undefined || Memory.SCRIPT_VERSION !== global.SCRIPT_VERSION) {

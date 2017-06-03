@@ -4,6 +4,9 @@ module.exports = function (sandbox) {
 	const _ = require('./lodash.js');
 
 	global = _.merge(global, {
+		CARRY: 'carry',
+		MOVE: 'move',
+		WORK: 'work',
 		// TOP: 1,
 		// TOP_RIGHT: 2,
 		// RIGHT: 3,
@@ -14,6 +17,7 @@ module.exports = function (sandbox) {
 		// TOP_LEFT: 8,
 
 		FIND_SOURCES: 105,
+		FIND_STRUCTURES: 107,
 		//
 		// LOOK_CREEPS: "creep",
 		// LOOK_ENERGY: "energy",
@@ -38,7 +42,7 @@ module.exports = function (sandbox) {
 		// STRUCTURE_POWER_SPAWN: 'powerSpawn',
 		// STRUCTURE_RAMPART: 'rampart',
 		// STRUCTURE_ROAD: 'road',
-		// STRUCTURE_SPAWN: 'spawn',
+		STRUCTURE_SPAWN: 'spawn',
 		// STRUCTURE_STORAGE: 'storage',
 		// STRUCTURE_TOWER: 'tower',
 		// STRUCTURE_WALL: 'constructedWall',
@@ -78,5 +82,10 @@ module.exports = function (sandbox) {
 	};
 
 	global.Source = function () {
+	};
+
+	global.StructureSpawn = function () {
+	};
+	StructureSpawn.prototype.createCreep = function () {
 	};
 };
