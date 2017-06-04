@@ -10,11 +10,17 @@ module.exports = function () {
 
 	StructureSpawn.prototype._createCreep = StructureSpawn.prototype.createCreep;
 
-	StructureSpawn.prototype.createCreep = function (body, memory = {}) {
-		const creepName = this._createCreep(body, NameGenerator.generate(this.name, memory.role), memory);
+	StructureSpawn.prototype.createCreep = function (role) {
+		if (this.spawning || this.energy < role.cost) {
+			return;
+		}
+
+		/*eslint-disable no-console */
+		console.log('Creating creep: ' + role.id);
+		const creepName = this._createCreep(role.body, NameGenerator.generate(this.name, role.id), {role: role.id});
 
 		if (_.isString(creepName)) {
-			return creepName;
+			return true;
 		}
 
 		/*eslint-disable no-console */

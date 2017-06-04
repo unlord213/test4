@@ -1,6 +1,6 @@
 'use strict';
 
-const Roles = require('./Roles');
+const Roles = require('Roles');
 
 module.exports = {
 	run: run

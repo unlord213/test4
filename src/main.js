@@ -11,6 +11,7 @@ require('./prototype/structureSpawn/createCreep')();
 
 const Reporter = require('./Reporter');
 const RoomManager = require('./RoomManager');
+const CreepManager = require('./CreepManager');
 
 module.exports.loop = function () {
 	if (Memory.SCRIPT_VERSION === undefined || Memory.SCRIPT_VERSION !== global.SCRIPT_VERSION) {
@@ -20,7 +21,9 @@ module.exports.loop = function () {
 	}
 
 	for (const roomName in Game.rooms) {
-		RoomManager.run(Game.rooms[roomName]);
+		const room = Game.rooms[roomName];
+		RoomManager.run(room);
+		CreepManager.run(room);
 	}
 
 	Reporter.report();

@@ -1,1 +1,1 @@
-global.SCRIPT_VERSION = 28;
+global.SCRIPT_VERSION = 32;
