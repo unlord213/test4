@@ -15,7 +15,11 @@ module.exports = function () {
 
 			if (this.pos.x !== x || this.pos.y !== y) {
 				console.log('move')
-				this.moveTo(source, {
+				if(this.fatigue) {
+					return ERR_TIRED;
+				}
+
+				const moveResult = this.moveTo(source, {
 					visualizePathStyle: {
 						fill: 'transparent',
 						stroke: '#fff',
@@ -24,7 +28,13 @@ module.exports = function () {
 						opacity: .1
 					}
 				});
-				return;
+
+				if (moveResult !== OK) {
+					/*eslint-disable no-console */
+					console.log('Error moving to transfer: ' + this.name + ': ' + ResultMap.get(result));
+				}
+
+				return moveResult;
 			}
 
 			console.log('harvesting', sourceId, JSON.stringify(source))
