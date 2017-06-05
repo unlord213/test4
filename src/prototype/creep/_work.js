@@ -2,9 +2,9 @@
 
 const ResultMap = require('../../util/ResultMap');
 
-module.exports = function() {
+module.exports = function () {
 	if (!Creep.prototype._work) {
-		Creep.prototype._work = (actionName, ...args) => {
+		Creep.prototype._work = function (actionName, ...args) {
 			const result = this[actionName].apply(this, args);
 			if (result !== OK && result !== ERR_NOT_IN_RANGE) {
 				/*eslint-disable no-console */

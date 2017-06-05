@@ -2,7 +2,7 @@
 
 // const ResultMap = require('ResultMap');
 
-module.exports = function() {
+module.exports = function () {
 	if (!Creep.prototype._withdraw) {
 		Creep.prototype._withdraw = Creep.prototype.withdraw;
 
@@ -19,7 +19,7 @@ module.exports = function() {
 		// 	return result;
 		// };
 
-		Creep.prototype.withdraw = (...args) => {
+		Creep.prototype.withdraw = function (...args) {
 			return this._work('withdraw', args);
 		};
 	}

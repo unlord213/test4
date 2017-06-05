@@ -8,6 +8,9 @@ require('./prototype/room/init')();
 require('./prototype/roomPosition/getAdjacent')();
 require('./prototype/source/buildAccessPoints')();
 require('./prototype/structureSpawn/createCreep')();
+require('./prototype/creep/_work')();
+require('./prototype/creep/harvest')();
+require('./prototype/creep/transfer')();
 
 const Reporter = require('./Reporter');
 const RoomManager = require('./RoomManager');
@@ -22,8 +25,12 @@ module.exports.loop = function () {
 
 	for (const roomName in Game.rooms) {
 		const room = Game.rooms[roomName];
-		RoomManager.run(room);
-		CreepManager.run(room);
+
+		const roomManager = new RoomManager(room);
+		roomManager.run();
+
+		const creepManager = new CreepManager(roomManager);
+		creepManager.run();
 	}
 
 	Reporter.report();

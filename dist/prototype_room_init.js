@@ -10,6 +10,9 @@ module.exports = function () {
 			return;
 		}
 
+		/*eslint-disable no-console */
+		console.log('Init room: ' + this.name);
+
 		let numAccessPoints = 0;
 		this.memory.sourceAccessPoints = this.find(FIND_SOURCES).reduce(function (obj, source) {
 			// TODO: remove when can handle dangerous sources

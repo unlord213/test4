@@ -2,7 +2,7 @@
 
 // const ResultMap = require('../ResultMap');
 
-module.exports = function() {
+module.exports = function () {
 	if (!Creep.prototype._upgradeController) {
 		Creep.prototype._upgradeController = Creep.prototype.upgradeController;
 
@@ -19,7 +19,7 @@ module.exports = function() {
 		// 	return result;
 		// };
 
-		Creep.prototype.upgradeController = (target) => {
+		Creep.prototype.upgradeController = function (target) {
 			return this._work('upgradeController', target);
 		};
 	}

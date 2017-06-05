@@ -8,5 +8,6 @@ function Action(id) {
 
 module.exports = {
 	HARVEST: new Action('HARVEST'),
-	BUILD: new Action('BUILD')
+	BUILD: new Action('BUILD'),
+	TRANSFER: new Action('TRANSFER')
 };

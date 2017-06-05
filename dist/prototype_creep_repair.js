@@ -2,7 +2,7 @@
 
 // const ResultMap = require('ResultMap');
 
-module.exports = function() {
+module.exports = function () {
 	if (!Creep.prototype._repair) {
 		Creep.prototype._repair = Creep.prototype.repair;
 
@@ -19,7 +19,7 @@ module.exports = function() {
 		// 	return result;
 		// };
 
-		Creep.prototype.repair = (target) => {
+		Creep.prototype.repair = function (target) {
 			return this._work('repair', target);
 		};
 	}

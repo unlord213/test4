@@ -2,7 +2,7 @@
 
 // const ResultMap = require('ResultMap');
 
-module.exports = function() {
+module.exports = function () {
 	if (!Creep.prototype._build) {
 		Creep.prototype._build = Creep.prototype.build;
 
@@ -19,7 +19,7 @@ module.exports = function() {
 		// 	return result;
 		// };
 
-		Creep.prototype.build = (target) => {
+		Creep.prototype.build = function (target) {
 			return this._work('build', target);
 		};
 	}

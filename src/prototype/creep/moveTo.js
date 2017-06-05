@@ -2,11 +2,11 @@
 
 const ResultMap = require('../../util/ResultMap');
 
-module.exports = function() {
+module.exports = function () {
 	if (!Creep.prototype._moveTo) {
 		Creep.prototype._moveTo = Creep.prototype.moveTo;
 
-		Creep.prototype.moveTo = (...args) => {
+		Creep.prototype.moveTo = function (...args) {
 			if (this.fatigue) {
 				return ERR_TIRED;
 			}

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	generate: (spawnName, role) => {
+	generate: function (spawnName, role) {
 		if (role) {
 			return spawnName + '_' + role + '_' + Game.time;
 		}

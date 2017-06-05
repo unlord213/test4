@@ -48,6 +48,15 @@ module.exports = function (sandbox) {
 		// STRUCTURE_WALL: 'constructedWall',
 	});
 
+	global.Creep = function () {
+	};
+	Creep.prototype = {
+		harvest: function () {
+		},
+		transfer: function () {
+		}
+	};
+
 	global.Game = {
 		creeps: {},
 		flags: {},
