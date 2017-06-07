@@ -37,6 +37,7 @@ function run() {
 function _runHarvester(creep) {
 	if (undefined === creep.memory.action || creep.memory.action.done) {
 		creep.memory.action = this._findActionForCreep(creep);
+		return;
 	}
 
 	switch (creep.memory.action.id) {
@@ -46,20 +47,15 @@ function _runHarvester(creep) {
 			if (creep.carry.energy === creep.carryCapacity) {
 				creep.memory.action.done = true;
 				this.roomManager.removeCreepFromSource(target.sourceId, target.accessPointId);
+				console.log(creep.name + ' done harvesting ' + target.sourceId + ':' + target.accessPointId);
 				return;
 			}
-
-			// if (!creep.memory.action.target) {
-			// 	const target = this.roomManager.findOpenAccessPoint();
-			// 	this.roomManager.addCreepToSource(target.sourceId, target.accessPointId, creep.name);
-			// 	creep.memory.action.target = target;
-			// }
 
 			creep.harvest(target.x, target.y, target.sourceId);
 			break;
 		}
 		case Actions.TRANSFER.id:
-			if (creep.carry.energy === creep.carryCapacity) {
+			if (creep.carry.energy === 0) {
 				creep.memory.action.done = true;
 				return;
 			}
@@ -92,6 +88,7 @@ function _findActionForHarvester(creep) {
 		const action = Actions.HARVEST;
 		action.target = this.roomManager.findOpenAccessPoint();
 		this.roomManager.addCreepToSource(action.target.sourceId, action.target.accessPointId, creep.name);
+		console.log(creep.name + ' added to harvest ' + action.target.sourceId + ':' + action.target.accessPointId);
 		return action;
 	}
 

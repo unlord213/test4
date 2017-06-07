@@ -13,38 +13,32 @@ module.exports = function () {
 		Creep.prototype.harvest = function (x, y, sourceId) {
 			const source = Game.getObjectById(sourceId);
 
-			if (this.pos.x !== x || this.pos.y !== y) {
-				console.log('move')
-				if(this.fatigue) {
-					return ERR_TIRED;
-				}
-
-				const moveResult = this.moveTo(source, {
-					visualizePathStyle: {
-						fill: 'transparent',
-						stroke: '#fff',
-						lineStyle: 'dashed',
-						strokeWidth: .15,
-						opacity: .1
-					}
-				});
-
-				if (moveResult !== OK) {
+			if (this.pos.x === x && this.pos.y === y) {
+				const result = this._harvest(source);
+				if (result !== OK && result !== ERR_NOT_IN_RANGE) {
 					/*eslint-disable no-console */
-					console.log('Error moving to transfer: ' + this.name + ': ' + ResultMap.get(result));
+					console.log('Error harvesting: ' + this.name + ': ' + ResultMap.get(result));
 				}
 
-				return moveResult;
+				return result;
 			}
 
-			console.log('harvesting', sourceId, JSON.stringify(source))
-			const result = this._harvest(source);
-			if (result !== OK && result !== ERR_NOT_IN_RANGE) {
+			const moveResult = this.moveTo(new RoomPosition(x, y, this.room.name), {
+				visualizePathStyle: {
+					fill: 'transparent',
+					stroke: '#fff',
+					lineStyle: 'dashed',
+					strokeWidth: .15,
+					opacity: .1
+				}
+			});
+
+			if (moveResult !== OK && moveResult !== ERR_TIRED) {
 				/*eslint-disable no-console */
-				console.log('Error harvesting: ' + this.name + ': ' + ResultMap.get(result));
+				console.log('Error moving to transfer: ' + this.name + ': ' + ResultMap.get(moveResult));
 			}
 
-			return result;
+			return moveResult;
 		};
 
 		// Creep.prototype.harvest = function (target) {

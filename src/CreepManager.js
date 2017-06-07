@@ -37,6 +37,8 @@ function run() {
 function _runHarvester(creep) {
 	if (undefined === creep.memory.action || creep.memory.action.done) {
 		creep.memory.action = this._findActionForCreep(creep);
+		// TODO: why does not returning here cause conflicts on access points
+		return;
 	}
 
 	switch (creep.memory.action.id) {
@@ -49,17 +51,11 @@ function _runHarvester(creep) {
 				return;
 			}
 
-			// if (!creep.memory.action.target) {
-			// 	const target = this.roomManager.findOpenAccessPoint();
-			// 	this.roomManager.addCreepToSource(target.sourceId, target.accessPointId, creep.name);
-			// 	creep.memory.action.target = target;
-			// }
-
 			creep.harvest(target.x, target.y, target.sourceId);
 			break;
 		}
 		case Actions.TRANSFER.id:
-			if (creep.carry.energy === creep.carryCapacity) {
+			if (creep.carry.energy === 0) {
 				creep.memory.action.done = true;
 				return;
 			}

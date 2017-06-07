@@ -11,30 +11,30 @@ module.exports = function () {
 		 */
 		Creep.prototype.transfer = function (target, resourceType, amount) {
 			const result = this._transfer(target, resourceType, amount);
-			if (result !== OK) {
-				if (result === ERR_NOT_IN_RANGE) {
-					if (this.fatigue) {
-						return ERR_TIRED;
+			if(result === OK) {
+				return result;
+			}
+
+			if (result === ERR_NOT_IN_RANGE) {
+				const moveResult = this.moveTo(target, {
+					visualizePathStyle: {
+						fill: 'transparent',
+						stroke: '#fff',
+						lineStyle: 'dashed',
+						strokeWidth: .15,
+						opacity: .1
 					}
+				});
 
-					const moveResult = this.moveTo(target, {
-						visualizePathStyle: {
-							fill: 'transparent',
-							stroke: '#fff',
-							lineStyle: 'dashed',
-							strokeWidth: .15,
-							opacity: .1
-						}
-					});
-
-					if (moveResult !== OK) {
-						/*eslint-disable no-console */
-						console.log('Error moving to transfer: ' + this.name + ': ' + ResultMap.get(result));
-					}
-
-					return moveResult;
+				if (moveResult !== OK && moveResult !== ERR_TIRED) {
+					/*eslint-disable no-console */
+					console.log('Error moving to transfer: ' + this.name + ': ' + ResultMap.get(result));
 				}
 
+				return moveResult;
+			}
+
+			if (result !== OK) {
 				/*eslint-disable no-console */
 				console.log('Error transferring: ' + this.name + ': ' + ResultMap.get(result));
 			}
