@@ -10,7 +10,7 @@ desc('Reporter report', function () {
 	});
 
 	it('should report', function () {
-		Memory = {foo: 'bar'};
+		global.Memory = {foo: 'bar'};
 		Game.time = 42;
 		Game.cpu.getUsed.returns('43');
 

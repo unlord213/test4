@@ -17,7 +17,7 @@ module.exports = function () {
 
 		/*eslint-disable no-console */
 		console.log('Creating creep: ' + role.id);
-		const creepName = this._createCreep(role.body, NameGenerator.generate(this.name, role.id), {role: role.id});
+		const creepName = this._createCreep(role.body, NameGenerator.generate(this.name, role.id), {role: role.id, room: this.room.name});
 
 		if (_.isString(creepName)) {
 			return true;
