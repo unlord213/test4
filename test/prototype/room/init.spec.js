@@ -36,7 +36,7 @@ desc('Room.init', function () {
 			sourceId0: accessPoint0,
 			sourceId1: accessPoint1
 		});
-		expect(room.memory.maxHarvesters).to.eql(4);
+		expect(room.memory.maxHarvesters).to.eql(3);
 		expect(room.find).to.have.been.calledWith(FIND_SOURCES);
 	});
 
