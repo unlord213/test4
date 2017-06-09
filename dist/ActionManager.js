@@ -1,7 +1,7 @@
 'use strict';
 
-const Roles = require('./Roles');
-const Actions = require('./Actions');
+const Roles = require('Roles');
+const Actions = require('Actions');
 
 const ActionManager = function (roomManager, creep) {
 	this.roomManager = roomManager;

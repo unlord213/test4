@@ -27,7 +27,7 @@ module.exports = function () {
 		}, {});
 
 		this.memory.numHarvesters = 0;
-		this.memory.maxHarvesters = numAccessPoints * 2;
+		this.memory.maxHarvesters = Math.ceil(numAccessPoints * 1.5);
 
 		this.memory.numBuilders = 0;
 		this.memory.maxBuilders = numAccessPoints;

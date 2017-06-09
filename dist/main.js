@@ -15,6 +15,7 @@ require('prototype_creep_transfer')();
 const Reporter = require('Reporter');
 const RoomManager = require('RoomManager');
 const CreepManager = require('CreepManager');
+const MemoryManager = require('MemoryManager');
 
 module.exports.loop = function () {
 	if (Memory.SCRIPT_VERSION === undefined || Memory.SCRIPT_VERSION !== global.SCRIPT_VERSION) {
@@ -29,9 +30,12 @@ module.exports.loop = function () {
 		const roomManager = new RoomManager(room);
 		roomManager.run();
 
-		const creepManager = new CreepManager(roomManager);
-		creepManager.run();
+		room.find(FIND_MY_CREEPS).forEach(creep => {
+			const creepManager = new CreepManager(roomManager, creep);
+			creepManager.run();
+		});
 	}
 
+	MemoryManager.cleanup();
 	Reporter.report();
 };

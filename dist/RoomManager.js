@@ -50,8 +50,10 @@ function addCreepToSource(sourceId, accessPointId, creepName) {
 function findOpenAccessPoint() {
 	for (const sourceId in this.room.memory.sourceAccessPoints) {
 		const accessPoints = this.room.memory.sourceAccessPoints[sourceId];
+
 		for (const accessPointId in accessPoints) {
 			const accessPoint = accessPoints[accessPointId];
+
 			if (accessPoint.creepName === null) {
 				return {
 					sourceId: sourceId,

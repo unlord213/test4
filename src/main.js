@@ -31,11 +31,9 @@ module.exports.loop = function () {
 		roomManager.run();
 
 		room.find(FIND_MY_CREEPS).forEach(creep => {
-
+			const creepManager = new CreepManager(roomManager, creep);
+			creepManager.run();
 		});
-
-		const creepManager = new CreepManager(roomManager);
-		creepManager.run();
 	}
 
 	MemoryManager.cleanup();

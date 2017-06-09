@@ -9,7 +9,14 @@ module.exports = function () {
 		/**
 		 * carry, within 1, target, resource type, amount params
 		 */
-		Creep.prototype.transfer = function (target, resourceType, amount) {
+		Creep.prototype.transfer = function (resourceType, amount) {
+			if(this.carry.energy === 0) {
+				this.memory.action.done = true;
+				return undefined;
+			}
+
+			const target = Game.getObjectById(this.memory.action.target);
+
 			const result = this._transfer(target, resourceType, amount);
 			if(result === OK) {
 				return result;

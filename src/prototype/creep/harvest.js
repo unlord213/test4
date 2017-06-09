@@ -11,15 +11,12 @@ module.exports = function () {
 		 */
 		// TODO: get source passed in?
 		Creep.prototype.harvest = function () {
-			const target = this.memory.action.target;
-
-
 			if (this.carry.energy === this.carryCapacity) {
 				this.memory.action.done = true;
 				return;
 			}
 
-
+			const target = this.memory.action.target;
 			if (this.pos.x === target.x && this.pos.y === target.y) {
 				const result = this._harvest(Game.getObjectById(target.sourceId));
 				if (result !== OK && result !== ERR_NOT_IN_RANGE) {

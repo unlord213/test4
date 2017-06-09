@@ -2,100 +2,74 @@
 
 const Roles = require('Roles');
 const Actions = require('Actions');
+const ActionManager = require('ActionManager');
 
-const CreepManager = function (roomManager) {
+const CreepManager = function (roomManager, creep) {
 	this.roomManager = roomManager;
+	this.creep = creep;
 };
 
 CreepManager.prototype = {
 	run: run,
 	_runHarvester: _runHarvester,
-	_runBuilder: _runBuilder,
-	_findActionForCreep: _findActionForCreep,
-	_findActionForHarvester: _findActionForHarvester,
-	_findActionForBuilder: _findActionForBuilder
+	_runBuilder: _runBuilder
 };
 
 module.exports = CreepManager;
 
 function run() {
-	this.roomManager.room.find(FIND_MY_CREEPS).forEach(creep => {
-		switch (creep.memory.role) {
-			case Roles.HARVESTER.id:
-				this._runHarvester(creep);
-				break;
-			case Roles.BUILDER.id:
-				this._runBuilder(creep);
-				break;
-			default:
-				/*eslint-disable no-console */
-				console.log('Unknown role for run: ' + creep.name + ': ' + creep.memory.role);
-		}
-	});
-}
-
-function _runHarvester(creep) {
-	if (undefined === creep.memory.action || creep.memory.action.done) {
-		creep.memory.action = this._findActionForCreep(creep);
+	if (!this.creep.memory || !this.creep.memory.role) {
+		/*eslint-disable no-console */
+		console.log('Could not find role for : ' + this.creep.name);
 		return;
 	}
 
-	switch (creep.memory.action.id) {
-		case Actions.HARVEST.id: {
-			const target = creep.memory.action.target;
+	switch (this.creep.memory.role) {
+		case Roles.HARVESTER.id:
+			this._runHarvester();
+			break;
+		case Roles.BUILDER.id:
+			this._runBuilder();
+			break;
+		default:
+			/*eslint-disable no-console */
+			console.log('Unknown role for run: ' + this.creep.name + ': ' + this.creep.memory.role);
+	}
+}
 
-			if (creep.carry.energy === creep.carryCapacity) {
-				creep.memory.action.done = true;
+function _runHarvester() {
+	if (undefined === this.creep.memory.action || this.creep.memory.action.done) {
+		const action = new ActionManager(this.roomManager, this.creep).findAction();
+		this.creep.memory.action = action;
+
+		if (Actions.HARVEST === action.id) {
+			this.roomManager.addCreepToSource(action.target.sourceId, action.target.accessPointId, this.creep.name);
+		}
+
+		// TODO: dont return here to get to next action quicker?
+		return;
+	}
+
+	switch (this.creep.memory.action.id) {
+		case Actions.HARVEST: {
+			const result = this.creep.harvest();
+			if (result === undefined) {
+				const target = this.creep.memory.action.target;
 				this.roomManager.removeCreepFromSource(target.sourceId, target.accessPointId);
-				console.log(creep.name + ' done harvesting ' + target.sourceId + ':' + target.accessPointId);
-				return;
 			}
-
-			creep.harvest(target.x, target.y, target.sourceId);
 			break;
 		}
-		case Actions.TRANSFER.id:
-			if (creep.carry.energy === 0) {
-				creep.memory.action.done = true;
-				return;
-			}
-
-			creep.transfer(Game.getObjectById(creep.memory.action.target), RESOURCE_ENERGY);
+		case Actions.TRANSFER:
+			this.creep.transfer(RESOURCE_ENERGY);
+			break;
+		case Actions.IDLE:
+			this.creep.memory.action.done = true;
 			break;
 		default:
 			/*eslint-disable no-console */
-			console.log('Unknown action for harvester: ' + creep.name + ': ' + creep.memory.action.id);
+			console.log('Unknown action for harvester: ' + this.creep.name + ': ' + this.creep.memory.action.id);
 	}
 }
 
-function _runBuilder(creep) {
-}
-
-function _findActionForCreep(creep) {
-	switch (creep.memory.role) {
-		case Roles.HARVESTER.id:
-			return this._findActionForHarvester(creep);
-		case Roles.BUILDER.id:
-			return this._findActionForBuilder(creep);
-		default:
-			/*eslint-disable no-console */
-			console.log('Unknown role for finding action: ' + creep.name + ': ' + creep.memory.role);
-	}
-}
-
-function _findActionForHarvester(creep) {
-	if (creep.carry.energy < creep.carryCapacity) {
-		const action = Actions.HARVEST;
-		action.target = this.roomManager.findOpenAccessPoint();
-		this.roomManager.addCreepToSource(action.target.sourceId, action.target.accessPointId, creep.name);
-		console.log(creep.name + ' added to harvest ' + action.target.sourceId + ':' + action.target.accessPointId);
-		return action;
-	}
-
-	const action = Actions.TRANSFER;
-	action.target = this.roomManager.findStructureNeedingEnergy();
-	return action;
-}
-
-function _findActionForBuilder(creep) {
+function _runBuilder() {
 }

@@ -10,11 +10,15 @@ module.exports = function () {
 		 * work and carry, within 1, target param
 		 */
 		// TODO: get source passed in?
-		Creep.prototype.harvest = function (x, y, sourceId) {
-			const source = Game.getObjectById(sourceId);
+		Creep.prototype.harvest = function () {
+			if (this.carry.energy === this.carryCapacity) {
+				this.memory.action.done = true;
+				return;
+			}
 
-			if (this.pos.x === x && this.pos.y === y) {
-				const result = this._harvest(source);
+			const target = this.memory.action.target;
+			if (this.pos.x === target.x && this.pos.y === target.y) {
+				const result = this._harvest(Game.getObjectById(target.sourceId));
 				if (result !== OK && result !== ERR_NOT_IN_RANGE) {
 					/*eslint-disable no-console */
 					console.log('Error harvesting: ' + this.name + ': ' + ResultMap.get(result));
@@ -23,7 +27,7 @@ module.exports = function () {
 				return result;
 			}
 
-			const moveResult = this.moveTo(new RoomPosition(x, y, this.room.name), {
+			const moveResult = this.moveTo(new RoomPosition(target.x, target.y, this.room.name), {
 				visualizePathStyle: {
 					fill: 'transparent',
 					stroke: '#fff',

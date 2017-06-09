@@ -6,8 +6,9 @@ function Action(id) {
 	this.done = false;
 }
 
-module.exports = {
-	HARVEST: new Action('HARVEST'),
-	BUILD: new Action('BUILD'),
-	TRANSFER: new Action('TRANSFER')
-};
+Action.HARVEST = 'HARVEST';
+Action.BUILD = 'BUILD';
+Action.TRANSFER = 'TRANSFER';
+Action.IDLE = 'IDLE';
+
+module.exports = Action;

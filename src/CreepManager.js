@@ -39,19 +39,19 @@ function run() {
 
 function _runHarvester() {
 	if (undefined === this.creep.memory.action || this.creep.memory.action.done) {
-		const action = new ActionManager(this.creep).findAction();
+		const action = new ActionManager(this.roomManager, this.creep).findAction();
 		this.creep.memory.action = action;
 
-		if (Actions.HARVEST.id === action.id) {
+		if (Actions.HARVEST === action.id) {
 			this.roomManager.addCreepToSource(action.target.sourceId, action.target.accessPointId, this.creep.name);
 		}
 
-		// TODO: why does not returning here cause conflicts on access points
+		// TODO: dont return here to get to next action quicker?
 		return;
 	}
 
 	switch (this.creep.memory.action.id) {
-		case Actions.HARVEST.id: {
+		case Actions.HARVEST: {
 			const result = this.creep.harvest();
 			if (result === undefined) {
 				const target = this.creep.memory.action.target;
@@ -59,8 +59,11 @@ function _runHarvester() {
 			}
 			break;
 		}
-		case Actions.TRANSFER.id:
+		case Actions.TRANSFER:
 			this.creep.transfer(RESOURCE_ENERGY);
+			break;
+		case Actions.IDLE:
+			this.creep.memory.action.done = true;
 			break;
 		default:
 			/*eslint-disable no-console */
