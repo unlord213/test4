@@ -41,9 +41,13 @@ function _runHarvester() {
 	if (undefined === this.creep.memory.action || this.creep.memory.action.done) {
 		const action = new ActionManager(this.roomManager, this.creep).findAction();
 		this.creep.memory.action = action;
-
-		if (Actions.HARVEST === action.id) {
-			this.roomManager.addCreepToSource(action.target.sourceId, action.target.accessPointId, this.creep.name);
+		switch (action.id) {
+			case Actions.HARVEST :
+				this.roomManager.addCreepToSource(action.target.sourceId, action.target.accessPointId, this.creep.name);
+				break;
+			case Actions.TRANSFER :
+				this.roomManager.addCreepToEnergyStructure(action.target, this.creep.name, this.creep.carry.energy);
+				break;
 		}
 
 		// TODO: dont return here to get to next action quicker?
@@ -52,16 +56,20 @@ function _runHarvester() {
 
 	switch (this.creep.memory.action.id) {
 		case Actions.HARVEST: {
-			const result = this.creep.harvest();
-			if (result === undefined) {
+			const done = this.creep.harvest();
+			if (done) {
 				const target = this.creep.memory.action.target;
 				this.roomManager.removeCreepFromSource(target.sourceId, target.accessPointId);
 			}
 			break;
 		}
-		case Actions.TRANSFER:
-			this.creep.transfer(RESOURCE_ENERGY);
+		case Actions.TRANSFER: {
+			const done = this.creep.transfer(RESOURCE_ENERGY);
+			if (done) {
+				this.roomManager.removeCreepFromEnergyStructure(this.creep.memory.action.target, this.creep.name);
+			}
 			break;
+		}
 		case Actions.IDLE:
 			this.creep.memory.action.done = true;
 			break;

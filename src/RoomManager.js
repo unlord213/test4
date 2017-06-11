@@ -8,12 +8,15 @@ const RoomManager = function (room) {
 
 RoomManager.prototype = {
 	run: run,
-	removeCreepFromSource: removeCreepFromSource,
 	addCreepToSource: addCreepToSource,
+	removeCreepFromSource: removeCreepFromSource,
+	addCreepToEnergyStructure: addCreepToEnergyStructure,
+	removeCreepFromEnergyStructure: removeCreepFromEnergyStructure,
 	findOpenAccessPoint: findOpenAccessPoint,
 	findStructureNeedingEnergy: findStructureNeedingEnergy,
 	_createHarvester: _createHarvester,
-	_createBuilder: _createBuilder
+	_createBuilder: _createBuilder,
+	_updateEnergyStructures: _updateEnergyStructures
 };
 
 module.exports = RoomManager;
@@ -24,6 +27,7 @@ const spawnFilter = {
 
 function run() {
 	this.room.init();
+	this._updateEnergyStructures();
 
 	// this.room.memory.spawnIds.forEach(spawnId => {
 	// 	const spawn = Game.getObjectById(spawnId);
@@ -39,12 +43,41 @@ function run() {
 	});
 }
 
+function addCreepToSource(sourceId, accessPointId, creepName) {
+	this.room.memory.sourceAccessPoints[sourceId][accessPointId].creepName = creepName;
+}
+
 function removeCreepFromSource(sourceId, accessPointId) {
 	this.room.memory.sourceAccessPoints[sourceId][accessPointId].creepName = null;
 }
 
-function addCreepToSource(sourceId, accessPointId, creepName) {
-	this.room.memory.sourceAccessPoints[sourceId][accessPointId].creepName = creepName;
+// TODO: put structure type in action to prevent loop?
+function addCreepToEnergyStructure(target, creepName, energy) {
+	const energyStructures = this.room.memory.energyStructures;
+	for (const structureType in energyStructures) {
+		const structureInfos = energyStructures[structureType];
+
+		for(const structureId in structureInfos) {
+			if(structureId === target) {
+				structureInfos[structureId].transfers[creepName] = energy;
+				return;
+			}
+		}
+	}
+}
+
+// TODO: put structure type in action to prevent loop?
+function removeCreepFromEnergyStructure(target, creepName) {
+	const energyStructures = this.room.memory.energyStructures;
+	for (const structureType in energyStructures) {
+		const structureInfos = energyStructures[structureType];
+
+		for(const structureId in structureInfos) {
+			if(structureId === target) {
+				delete structureInfos[structureId].transfers[creepName];
+			}
+		}
+	}
 }
 
 function findOpenAccessPoint() {
@@ -66,9 +99,24 @@ function findOpenAccessPoint() {
 	}
 }
 
-// TODO: rework this
 function findStructureNeedingEnergy() {
-	return Game.spawns['Spawn1'].id;
+	if (this.structuresNeedingEnergy === undefined) {
+		this.structuresNeedingEnergy = [];
+
+		const energyStructures = this.room.memory.energyStructures;
+		for (const structureType in energyStructures) {
+			const structureTypeInfo = energyStructures[structureType];
+
+			for (const structureId in structureTypeInfo) {
+				const energyStructureInfo = structureTypeInfo[structureId];
+				if (energyStructureInfo.potentialEnergy < energyStructureInfo.energyCapacity) {
+					this.structuresNeedingEnergy.push(structureId);
+				}
+			}
+		}
+	}
+
+	return this.structuresNeedingEnergy[0];
 }
 
 function _createHarvester(spawn) {
@@ -82,5 +130,24 @@ function _createBuilder(spawn) {
 	const created = spawn.createCreep(Roles.BUILDER);
 	if (created) {
 		++this.room.memory.numBuilders;
+	}
+}
+
+function _updateEnergyStructures() {
+	const spawns = this.room.memory.energyStructures[STRUCTURE_SPAWN];
+	for (const spawnId in spawns) {
+		const structureInfo = spawns[spawnId];
+
+		const energy = Game.getObjectById(spawnId).energy;
+		structureInfo.energy = energy;
+
+		let potentialEnergy = energy;
+
+		const transfers = structureInfo.transfers;
+		for (const creepName in transfers) {
+			potentialEnergy += transfers[creepName];
+		}
+
+		structureInfo.potentialEnergy = potentialEnergy;
 	}
 }

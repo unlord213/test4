@@ -11,11 +11,6 @@ module.exports = function () {
 		 */
 		// TODO: get source passed in?
 		Creep.prototype.harvest = function () {
-			if (this.carry.energy === this.carryCapacity) {
-				this.memory.action.done = true;
-				return;
-			}
-
 			const target = this.memory.action.target;
 			if (this.pos.x === target.x && this.pos.y === target.y) {
 				const result = this._harvest(Game.getObjectById(target.sourceId));
@@ -24,7 +19,12 @@ module.exports = function () {
 					console.log('Error harvesting: ' + this.name + ': ' + ResultMap.get(result));
 				}
 
-				return result;
+				if (this.carry.energy === this.carryCapacity) {
+					this.memory.action.done = true;
+					return true;
+				}
+
+				return false;
 			}
 
 			const moveResult = this.moveTo(new RoomPosition(target.x, target.y, this.room.name), {
@@ -42,7 +42,7 @@ module.exports = function () {
 				console.log('Error moving to transfer: ' + this.name + ': ' + ResultMap.get(moveResult));
 			}
 
-			return moveResult;
+			return false;
 		};
 
 		// Creep.prototype.harvest = function (target) {

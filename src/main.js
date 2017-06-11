@@ -8,7 +8,7 @@ require('./prototype/room/init')();
 require('./prototype/roomPosition/getAdjacent')();
 require('./prototype/source/buildAccessPoints')();
 require('./prototype/structureSpawn/createCreep')();
-require('../example/prototype/creep/_work')();
+// require('../example/prototype/creep/_work')();
 require('./prototype/creep/harvest')();
 require('./prototype/creep/transfer')();
 
@@ -37,5 +37,5 @@ module.exports.loop = function () {
 	}
 
 	MemoryManager.cleanup();
-	Reporter.report();
+	// Reporter.report();
 };

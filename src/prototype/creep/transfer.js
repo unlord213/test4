@@ -9,18 +9,11 @@ module.exports = function () {
 		/**
 		 * carry, within 1, target, resource type, amount params
 		 */
+		// TODO: only transfer enough to fill up structure
 		Creep.prototype.transfer = function (resourceType, amount) {
-			if(this.carry.energy === 0) {
-				this.memory.action.done = true;
-				return undefined;
-			}
-
 			const target = Game.getObjectById(this.memory.action.target);
 
 			const result = this._transfer(target, resourceType, amount);
-			if(result === OK) {
-				return result;
-			}
 
 			if (result === ERR_NOT_IN_RANGE) {
 				const moveResult = this.moveTo(target, {
@@ -38,15 +31,18 @@ module.exports = function () {
 					console.log('Error moving to transfer: ' + this.name + ': ' + ResultMap.get(result));
 				}
 
-				return moveResult;
+				return false;
 			}
 
 			if (result !== OK) {
 				/*eslint-disable no-console */
 				console.log('Error transferring: ' + this.name + ': ' + ResultMap.get(result));
+			} else {
+				this.memory.action.done = true;
+				return true;
 			}
 
-			return result;
+			return false;
 		};
 
 		// Creep.prototype.transfer = function (...args) {

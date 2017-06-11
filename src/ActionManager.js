@@ -32,7 +32,7 @@ function _findActionForHarvester() {
 	if (this.creep.carry.energy < this.creep.carryCapacity) {
 		const target = this.roomManager.findOpenAccessPoint();
 
-		if(target === undefined) {
+		if (target === undefined) {
 			return new Actions(Actions.IDLE);
 		}
 
@@ -41,8 +41,13 @@ function _findActionForHarvester() {
 		return action;
 	}
 
+	const structureId = this.roomManager.findStructureNeedingEnergy();
+	if (structureId === undefined) {
+		return new Actions(Actions.IDLE);
+	}
+
 	const action = new Actions(Actions.TRANSFER);
-	action.target = this.roomManager.findStructureNeedingEnergy();
+	action.target = structureId;
 	return action;
 }
 

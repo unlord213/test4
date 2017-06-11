@@ -1,5 +1,7 @@
 'use strict';
 
+const EnergyStructureInfo = require('../../EnergyStructureInfo');
+
 module.exports = function () {
 	if (Room.prototype.init) {
 		return;
@@ -32,8 +34,22 @@ module.exports = function () {
 		this.memory.numBuilders = 0;
 		this.memory.maxBuilders = numAccessPoints;
 
-		// this.memory.spawnIds = this.find(FIND_STRUCTURES, {
-		// 	filter: {structureType: STRUCTURE_SPAWN}
-		// }).map(spawn => spawn.id);
+		const filter = {
+			filter: function (structure) {
+				return structure.structureType == STRUCTURE_EXTENSION ||
+					structure.structureType == STRUCTURE_SPAWN ||
+					structure.structureType == STRUCTURE_TOWER;
+			}
+		};
+
+		const energyStructures = {};
+		energyStructures[STRUCTURE_SPAWN] = {};
+		energyStructures[STRUCTURE_EXTENSION] = {};
+		energyStructures[STRUCTURE_TOWER] = {};
+
+		this.memory.energyStructures = this.find(FIND_MY_STRUCTURES, filter).reduce(function (obj, structure) {
+			obj[structure.structureType][structure.id] = new EnergyStructureInfo(structure.energyCapacity);
+			return obj;
+		}, energyStructures);
 	};
 };
